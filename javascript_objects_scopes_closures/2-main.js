@@ -1,6 +1,9 @@
 #!/usr/bin/node
 const Rectangle = require('./2-rectangle');
-
+const rectangle = new Rectangle(0, 0);
+console.log(rectangle); 
+console.log(rectangle.width); 
+console.log(rectangle.height);
 const r1 = new Rectangle(2, 3);
 console.log(r1);
 console.log(r1.width);
