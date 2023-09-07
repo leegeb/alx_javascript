@@ -1,17 +1,18 @@
 #!/usr/bin/node
-module.exports = class Rectangle {
-    constructor(w, h) {
-        if (w > 0 && h > 0) {
-            this.w = width;
-            this.h = height;
+module.exports =class Rectangle{
+    constructor(width,height){
+        if(width>0 && height>0)
+        {
+        this.width=width;
+        this.height=height;
         }
     }
-    print() {
-        for (let i = 0; i < this.h; i++) {
-            for (let i = 0; i < this.w; i++) {
+    print(){
+        for(let i=0;i<this.height;i++){
+            for(let i=0;i<this.width;i++){
                 process.stdout.write("X");
             }
-            console.log();
+            console.log(); 
         }
     }
 }
