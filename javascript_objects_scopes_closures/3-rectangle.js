@@ -2,19 +2,16 @@
 module.exports = class Rectangle {
     constructor(w, h) {
         if (w > 0 && h > 0) {
-            this.width = w;
-            this.height = h;
+            this.w = width;
+            this.h = height;
+        }
+    }
+    print() {
+        for (let i = 0; i < this.h; i++) {
+            for (let i = 0; i < this.w; i++) {
+                process.stdout.write("X");
+            }
+            console.log();
         }
     }
 }
-print() 
-    if (!this.width || !this.height) {
-        console.log("Invalid rectangle dimensions");
-        return;
-    }
-
-    const row = 'X '.repeat(this.width).trim();
-    for (let i = 0; i < this.height; i++) {
-        console.log(row);
-    }
-    
