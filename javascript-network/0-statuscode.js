@@ -1,9 +1,7 @@
+#!/usr/bin/node
 const request = require('request');
-if (ProcessingInstruction.argv.length <= 2) {
-    console.error('Please provide a URL as the first argument.');
-    ProcessingInstruction.exit(1);
-}
-const url = process.argv[2];
+
+const url = 'https://swapi-api.alx-tools.com/api/films/'+ process.argv[2];
 
 request(url, function (error, response) {
     if (error) {
