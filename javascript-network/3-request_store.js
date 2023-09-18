@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const url = process.argv[2];
 const file = process.argv[3];
-
+console.log(process.argv[3]);
 
 const writeStream = fs.createWriteStream(file, { encoding: 'utf8' });
 
