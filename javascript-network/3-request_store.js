@@ -5,7 +5,7 @@ const url = process.argv[2];
 const file = process.argv[3];
 
 
-const writeStream = fs.createWriteStream(file, { encoding: 'utf8' });
+const writeStream = fs.createWriteStream({ encoding: 'utf8' });
 
 
 request.get(url)
