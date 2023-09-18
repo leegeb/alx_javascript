@@ -18,7 +18,7 @@ request.get(url, (error, response, body) => {
         }
 
         console.log(count);
-      } else {
+    } else {
         console.error(`Failed to retrieve data. Status code: ${response.statusCode}`);
     }
 });
