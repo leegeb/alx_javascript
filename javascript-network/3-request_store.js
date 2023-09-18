@@ -14,5 +14,5 @@ request.get(url, { encoding: 'utf-8' })
     })
     .pipe(writeStream)
     .on('finish', () => {
-        console.log(`Web page contents have been saved to ${file}`);
+        console.log('${file}');
     });
