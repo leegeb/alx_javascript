@@ -12,16 +12,16 @@ request.get(url, (error, response, body) => {
 
         for (let i = 0; i < films.length; i++) {
             const characters = films[i].characters;
-            
             if (characters.includes('https://swapi-api.alx-tools.com/api/people/18/')) {
                 count++;
             }
         }
 
-        console.log(`Number of films with Wedge Antilles: ${count}`);
-    } else {
+        console.log(count);
+      } else {
         console.error(`Failed to retrieve data. Status code: ${response.statusCode}`);
     }
 });
+
 
 
