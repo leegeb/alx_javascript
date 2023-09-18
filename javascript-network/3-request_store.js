@@ -14,5 +14,5 @@ request.get(url, { encoding: 'utf-8' })
     })
     .pipe(writeStream)
     .on('finish', () => {
-        console.log('${file}');
+        console.log(file);
     });
