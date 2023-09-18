@@ -1,3 +1,3 @@
-exports.addMeMaybe = function (num, theFunction){
-    theFunction(++num)
-}
+exports.addMeMaybe = function (num, theFunction) {
+  theFunction(++num);
+};
