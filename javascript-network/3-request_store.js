@@ -8,7 +8,7 @@ const file = process.argv[3];
 const writeStream = fs.createWriteStream(file, { encoding: 'utf8' });
 
 
-request.get(url, { encoding: 'utf-8' })
+request.get(url)
     .on('error', (err) => {
         console.error(err);
     })
