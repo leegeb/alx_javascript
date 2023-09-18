@@ -17,6 +17,8 @@ request.get(url, (error, response, body) => {
             }
         }
 
-        console.log(count);
-      }
+        console.log(`Number of films with Wedge Antilles: ${count}`);
+    } else {
+        console.error(`Failed to retrieve data. Status code: ${response.statusCode}`);
+    }
 });
