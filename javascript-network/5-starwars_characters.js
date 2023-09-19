@@ -1,40 +1,25 @@
-const request = require("request");
+#!/usr/bin/node
 
-const movieId = process.argv[2];
+const req = require('request');
+const url = 'https://swapi-api.alx-tools.com/api/films/' + process.argv[2];
 
-const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
+require.get(url, (err, response, body) => {
+    if (err)
+        console.log(err);
+    else {
+        response = JSON.parse(body);
+        let cast = response.characters;
+        for (let i = 0; i < cast.length; i++) {
 
-request(apiUrl, (error, response, body)) => {
-    if (error) {
-        console.error(error);
-        return;
-    }
-
-    if (response.statusCode !== 200) {
-        console.error(`API returned status code: ${response.statusCode}`);
-        return;
-    }
-    try {
-        const movieData = JSON.parse(body);
-
-        console.log(`Characters in ${movieData.title}:`);
-        movieData.characters.forEach((characterUrl) => {
-            request(characterUrl, (charError, charResponse, charBody) => {
-                if (charError) {
-                    console.error('Error fetching character:', charError);
-                    return;
+            req.get(cast[i], (error, response, bod) => {
+                if (error)
+                    console.log(error);
+                else {
+                    response = JSON.parse(bod);
+                    console.log(resp.name);
                 }
-
-                if (charResponse.statusCode !== 200) {
-                    console.error(`API returned status code: ${charResponse.statusCode}`);
-                    return;
-                }
-
-                const characterData = JSON.parse(charBody);
-                console.log(characterData.name);
             });
-        });
-    } catch (parseError) {
-        console.error('Error parsing JSON:', parseError);
+
+        }
     }
-}
+});
