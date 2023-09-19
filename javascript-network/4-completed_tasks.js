@@ -1,32 +1,25 @@
+#!/usr/bin/node
 const request = require('request');
-const apiUrl = 'https://jsonplaceholder.typicode.com/todos';
-request(apiUrl, (error, response, body) => {
-    if (error) {
-        console.error('Error:', error);
-        return;
-    }
+const url = process.argv[2];
+const completed = {};
 
-    if (response.statusCode !== 200) {
-        console.error(`API returned status code: ${response.statusCode}`);
-        return;
-    }
-    try {
-        const todos = JSON.parse(body);
-        const userTaskCounts = {};
-        todos.forEach((todo) => {
-            if (todo.completed) {
-                const userId = todo.userId;
-                if (!userTaskCounts[userId]) {
-                    userTaskCounts[userId] = 1;
-                } else {
-                    userTaskCounts[userId]++;
+request.get(url, (error, response, body) => {
+    if (error) {
+        console.log(error);
+    } else {
+        response = JSON.parse(body);
+        for (let i = 0; i < response.length; i++) {
+            let count = 0;
+            let compare = response[i].userId;
+            for (let j = 0; j < response.length; j++) {
+                if (response[j].userId == compare && response[j].completed == true) {
+                    count++;
                 }
+                if (count != 0) {
+                    completed[x] = count;
+                }
+                console.log(completed);
             }
-        });
-        for (const userId in userTaskCounts) {
-            console.log(`User ${userId} completed ${userTaskCounts[userId]} tasks.`);
         }
-    } catch (parseError) {
-        console.error('Error parsing JSON:', parseError);
     }
 });
