@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookie</title>
+    <style>
+        .container {
+            display: flex;
+            align-items: center;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Login to the website</h1>
+    <div class="container">
+        <label for="firstname"></label>
+        <input type="text" id="firstname" placeholder="Firstname"><br /><br/>
+    
+        <label for="email"></label>
+        <input type="text" id="email" placeholder="Email"><br /><br />
+    
+        <button onclick="setCookies()">Log me in</button>
+    </div>
+
+    <h1>Cookies</h1>  
+    <button onclick="showCookies()">Show the cookies</button>
+
+    <div id="cookieDisplay"></div>
+
+    <script>
+        function setCookies() {
+            const firstNameInput = document.getElementById("firstname");
+            const emailInput = document.getElementById("email");
+
+            const firstNameValue = firstNameInput.value;
+            const emailValue = emailInput.value;
+
+            document.cookie = `firstName=${firstNameValue}`;
+            document.cookie = `email=${emailValue}`;
+
+            firstNameInput.value = "";
+            emailInput.value = "";
+        }
+
+        function showCookies() {
+            const cookieDisplay = document.getElementById("cookieDisplay");
+            cookieDisplay.innerHTML = "";
+
+            const cookies = document.cookie.split(";");
+
+            const paragraph = document.createElement("p");
+
+            let cookieContent = "Cookies:<br>";
+            cookies.forEach((cookie) => {
+                const [name, value] = cookie.trim().split("=");
+                cookieContent += `${name}: ${value}<br>`;
+            });
+            paragraph.innerHTML = cookieContent;
+
+            cookieDisplay.appendChild(paragraph);
+        }
+    </script>
+</body>
+
+</html>
