@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookie</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+
+    <style>
+        .container {
+            display: flex;
+            align-items: center;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 200px;
+        }
+
+        .login-form {
+            display: block !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="login-form" class="login-form">
+        <h2>Login to the website</h2>
+        <div class="container">
+            <label for="firstname"></label>
+            <input type="text" id="firstname" placeholder="Firstname"><br /><br />
+
+            <label for="email"></label>
+            <input type="text" id="email" placeholder="Email"><br /><br />
+
+            <button onclick="setCookiesAndShowWelcomeMessage()">Log me in</button>
+        </div>
+    </div>
+
+    <h1>Cookies</h1>
+    <button onclick="showCookies()">Show the cookies</button>
+
+    <div id="cookieDisplay"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script>
+        function setCookiesAndShowWelcomeMessage() {
+            const firstNameInput = document.getElementById("firstname");
+            const emailInput = document.getElementById("email");
+
+            const firstNameValue = firstNameInput.value;
+            const emailValue = emailInput.value;
+
+            const expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() + 10);
+
+            Cookies.set("firstName", firstNameValue, { expires: expirationDate });
+            Cookies.set("email", emailValue, { expires: expirationDate });
+
+            firstNameInput.value = "";
+            emailInput.value = "";
+
+            showWelcomeMessageOrForm();
+        }
+
+        function deleteCookiesAndShowForm() {
+
+            Cookies.remove("firstName");
+            Cookies.remove("email");
+
+            showForm();
+        }
+
+        function showForm() {
+            const loginForm = document.getElementById("login-form");
+            loginForm.style.display = "block";
+        }
+
+        function createWelcomeMessage(firstName) {
+            const welcomeMessage = document.createElement("div");
+            welcomeMessage.id = "welcome-message";
+            welcomeMessage.className = "welcome-message";
+
+            const welcomeHeading = document.createElement("h1");
+            welcomeHeading.textContent = `Welcome ${firstName}`;
+
+            const logoutLink = document.createElement("a");
+            logoutLink.href = "#";
+            logoutLink.textContent = "logout";
+            logoutLink.style.fontWeight = "normal";
+            logoutLink.style.fontStyle = "italic";
+            logoutLink.style.marginLeft = "10px";
+
+            logoutLink.addEventListener("click", function (e) {
+                e.preventDefault();
+                deleteCookiesAndShowForm();
+                welcomeMessage.style.display = "none";
+                showForm();
+            });
+
+            welcomeHeading.appendChild(logoutLink);
+            welcomeMessage.appendChild(welcomeHeading);
+
+            return welcomeMessage;
+        }
+
+        function showCookies() {
+            const cookieDisplay = document.getElementById("cookieDisplay");
+            cookieDisplay.innerHTML = "";
+
+            const email = Cookies.get("email");
+            const firstName = Cookies.get("firstName");
+
+            const paragraph = document.createElement("p");
+
+            let cookieContent = `Email: ${email} - Firstname: ${firstName}`;
+            paragraph.textContent = cookieContent;
+
+            cookieDisplay.appendChild(paragraph);
+        }
+
+        function showWelcomeMessageOrForm() {
+            const firstName = Cookies.get("firstName");
+
+            const welcomeMessage = document.getElementById("welcome-message");
+
+            if (firstName) {
+                if (welcomeMessage) {
+                    welcomeMessage.style.display = "block";
+                } else {
+                    const welcomeMessageDiv = createWelcomeMessage(firstName);
+                    document.body.appendChild(welcomeMessageDiv);
+                }
+
+                const loginForm = document.getElementById("login-form");
+                loginForm.style.display = "none";
+            } else {
+                showForm();
+            }
+        }
+        showWelcomeMessageOrForm();
+    </script>
+</body>
+
+</html>

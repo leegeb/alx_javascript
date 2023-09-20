@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Shopping Cart</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        padding: 10px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      li:hover {
+        background-color: #f2f2f2;
+      }
+
+      .cart {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-top: 20px;
+        text-align: left;
+      }
+
+      .cart h2 {
+        margin: 0;
+        padding-bottom: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Available Products</h1>
+      <ul id="item-list"></ul>
+      <div class="cart">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+      </div>
+    </div>
+    <script>
+      const availableItems = ["Shampoo", "Soap", "Sponge", "Water"];
+
+      function isSessionStorageSupported() {
+        try {
+          sessionStorage.setItem("test", "test");
+          sessionStorage.removeItem("test");
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+
+      if (isSessionStorageSupported()) {
+        const cart = getCartFromStorage();
+
+        createStore();
+        displayCart();
+
+        function getCartFromStorage() {
+          const cartData = sessionStorage.getItem("cart");
+          return cartData ? JSON.parse(cartData) : {};
+        }
+
+        function saveCartToStorage() {
+          sessionStorage.setItem("cart", JSON.stringify(cart));
+        }
+
+        function addItemToCart(item) {
+          if (cart[item]) {
+            cart[item]++;
+          } else {
+            cart[item] = 1;
+          }
+          saveCartToStorage();
+          displayCart();
+        }
+
+        function removeItemFromCart(item) {
+          if (cart[item]) {
+            delete cart[item];
+            saveCartToStorage();
+            displayCart();
+          }
+        }
+
+        function clearCart() {
+          sessionStorage.removeItem("cart");
+          displayCart();
+        }
+
+        function createStore() {
+          const itemList = document.getElementById("item-list");
+          availableItems.forEach((item) => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            li.addEventListener("click", () => addItemToCart(item));
+            itemList.appendChild(li);
+          });
+        }
+
+        function displayCart() {
+          const cartItemsDiv = document.getElementById("cart-items");
+          cartItemsDiv.innerHTML = "";
+
+          const cartKeys = Object.keys(cart);
+
+          if (cartKeys.length === 0) {
+            const emptyCartItem = document.createElement("p");
+            emptyCartItem.textContent = "Your cart is empty";
+            cartItemsDiv.appendChild(emptyCartItem);
+          } else {
+            const clearCartButton = document.createElement("button");
+            clearCartButton.textContent = "Clear my cart";
+            clearCartButton.addEventListener("click", clearCart);
+            cartItemsDiv.appendChild(clearCartButton);
+
+            cartKeys.forEach((item) => {
+              const cartItem = document.createElement("li");
+              cartItem.textContent = `${item} x ${cart[item]} `;
+              const removeButton = document.createElement("button");
+              removeButton.textContent = "Remove";
+              removeButton.addEventListener("click", () =>
+                removeItemFromCart(item)
+              );
+              cartItem.appendChild(removeButton);
+              cartItemsDiv.appendChild(cartItem);
+            });
+          }
+        }
+      } else {
+        alert(
+          "Sorry, your browser does not support Web storage. Try again with a better one."
+        );
+      }
+    </script>
+  </body>
+</html>
